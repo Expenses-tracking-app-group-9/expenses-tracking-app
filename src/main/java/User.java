@@ -18,19 +18,11 @@ public class User {
 
         public user() {}
 
-        public user(Long id, String name, String email, List<Expense> expenses) {
-            this.id = id;
+        public user(String name, String email, List<Expense> expenses) {
+
             this.name = name;
             this.email = email;
             this.expenses = expenses;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
         }
 
         public String getName() {
@@ -59,6 +51,6 @@ public class User {
 
         @Override
         public String toString() {
-            return "User [id=" + id + ", name=" + name + ", email=" + email + ", expenses=" + expenses + "]";
+            return "User [name=" + name + ", email=" + email + ", expenses=" + expenses + "]";
         }
     }}
