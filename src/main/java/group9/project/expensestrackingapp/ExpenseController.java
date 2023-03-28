@@ -1,6 +1,7 @@
 package group9.project.expensestrackingapp;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.*;
 
@@ -21,11 +22,30 @@ public class ExpenseController {
     private ExpenseRepository expenseRepository;
 
     @GetMapping
-    public List<Expense> getExpensesByUserId(@PathVariable Long userId) {
+    public List<Expense> getExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
-        return user.getExpenses();
+        List<Expense> expenses;
+        if (paid == null) {
+            expenses = user.getExpenses();
+        } else {
+            expenses = expenseRepository.findByUserAndPaid(user, paid);
+        }
+        return expenses;
     }
+
+    /*@GetMapping("/")
+    public List<Expense> getExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
+        List<Expense> expenses;
+        if (paid == null) {
+            expenses = user.getExpenses();
+        } else {
+            expenses = expenseRepository.findByUserAndPaid(user, paid);
+        }
+        return expenses;
+    }*/
 
     @PostMapping
     public Expense addExpense(@PathVariable Long userId, @RequestBody Expense expense) {

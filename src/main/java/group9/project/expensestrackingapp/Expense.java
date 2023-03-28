@@ -21,7 +21,7 @@ public class Expense {
 
     private String category;
 
-    private boolean repaid;
+    private boolean paid;
 
     private LocalDate date;
 
@@ -32,12 +32,12 @@ public class Expense {
 
     public Expense() {}
 
-    public Expense(String description, double amount, String note, String category, boolean isRepaid, LocalDate date, User user) {
+    public Expense(String description, double amount, String note, String category, boolean paid, LocalDate date, User user) {
         this.description = description;
         this.amount = amount;
         this.note = note;
         this.category = category;
-        this.repaid = isRepaid;
+        this.paid = paid;
         this.date = date;
         this.user = user;
     }
@@ -82,12 +82,12 @@ public class Expense {
         this.category = category;
     }
 
-    public boolean getRepaid() {
-        return repaid;
+    public boolean getPaid() {
+        return paid;
     }
 
-    public void setRepaid(boolean repaid) {
-        this.repaid = repaid;
+    public void setPaid(boolean paid) {
+        this.paid = paid;
     }
 
     public LocalDate getDate() {
