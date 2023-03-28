@@ -1,4 +1,9 @@
+package group9.project.expensestrackingapp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "expenses")
@@ -8,29 +13,31 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private double amount;
+
     private String description;
 
-    private double amount;
+    private String note;
 
     private String category;
 
-    private boolean isRepaid;
+    private boolean repaid;
 
-    private Long date;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
+    public Expense() {}
 
-    public Expense() {
-    }
-
-    public Expense(String description, double amount, String category, boolean isRepaid, Long date, User user) {
+    public Expense(String description, double amount, String note, String category, boolean isRepaid, LocalDate date, User user) {
         this.description = description;
         this.amount = amount;
+        this.note = note;
         this.category = category;
-        this.isRepaid = isRepaid;
+        this.repaid = isRepaid;
         this.date = date;
         this.user = user;
     }
@@ -41,6 +48,14 @@ public class Expense {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getDescription() {
@@ -67,19 +82,19 @@ public class Expense {
         this.category = category;
     }
 
-    public boolean getIsRepaid() {
-        return isRepaid;
+    public boolean getRepaid() {
+        return repaid;
     }
 
-    public void setIsRepaid(boolean isRepaid) {
-        this.isRepaid = isRepaid;
+    public void setRepaid(boolean repaid) {
+        this.repaid = repaid;
     }
 
-    public Long getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -90,5 +105,4 @@ public class Expense {
     public void setUser(User user) {
         this.user = user;
     }
-
 }
