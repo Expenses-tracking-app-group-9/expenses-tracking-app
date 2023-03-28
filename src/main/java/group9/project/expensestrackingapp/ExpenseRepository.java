@@ -5,4 +5,8 @@ import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByUserAndPaid(User user, boolean paid);
+
+    Double sumAmountByUser(User user);
+
+    Double sumAmountByUserIdAndPaid(Long userId, boolean paid);
 }

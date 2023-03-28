@@ -34,18 +34,18 @@ public class ExpenseController {
         return expenses;
     }
 
-    /*@GetMapping("/")
-    public List<Expense> getExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
+    @GetMapping("/sum")
+    public double getSumOfExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
-        List<Expense> expenses;
+        double sum = 0;
         if (paid == null) {
-            expenses = user.getExpenses();
+            sum = expenseRepository.sumAmountByUser(user);
         } else {
-            expenses = expenseRepository.findByUserAndPaid(user, paid);
+            sum = expenseRepository.sumAmountByUserIdAndPaid(userId, paid);
         }
-        return expenses;
-    }*/
+        return sum;
+    }
 
     @PostMapping
     public Expense addExpense(@PathVariable Long userId, @RequestBody Expense expense) {
