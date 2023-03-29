@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static jdk.internal.logger.LoggerFinderLoader.service;
 
 
 @RestController
@@ -101,7 +100,7 @@ public class ExpenseController {
     @GetMapping ("/expenses/new")
     public String showNewForm(Model model){
         model.addAttribute("expense", new Expense());
-        model.addAttribute("pagetitle", "Add new User")
+        model.addAttribute("pagetitle", "Add new User");
                 return "expenseform";
     }
 
