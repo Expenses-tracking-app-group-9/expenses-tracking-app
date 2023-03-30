@@ -11,9 +11,9 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    private String name;
+    private String username;
 
     private String email;
 
@@ -23,25 +23,26 @@ public class User {
 
     public User() {}
 
-    public User(String name, String email) {
-        this.name = name;
+    public User(int id, String username, String email) {
+        this.id = id;
+        this.username = username;
         this.email = email;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -58,17 +59,15 @@ public class User {
 
     public void addExpense(Expense expense) {
         expenses.add(expense);
-        expense.setUser(this);
     }
 
     public void removeExpense(Expense expense) {
         expenses.remove(expense);
-        expense.setUser(null);
     }
 
     @Override
     public String toString() {
-        return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
+        return "User [id=" + id + ", username=" + username + ", email=" + email + "]";
     }
 }
 
