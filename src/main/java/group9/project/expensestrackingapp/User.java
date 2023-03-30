@@ -58,12 +58,10 @@ public class User {
 
     public void addExpense(Expense expense) {
         expenses.add(expense);
-        expense.setUser(this);
     }
 
     public void removeExpense(Expense expense) {
         expenses.remove(expense);
-        expense.setUser(null);
     }
 
     @Override

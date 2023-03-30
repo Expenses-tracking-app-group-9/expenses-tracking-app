@@ -1,8 +1,6 @@
 package group9.project.expensestrackingapp;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.*;
 
 import org.springframework.http.HttpStatus;
@@ -38,11 +36,11 @@ public class ExpenseController {
     public double getSumOfExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
-        double sum = 0;
+        double sum;
         if (paid == null) {
-            sum = expenseRepository.sumAmountByUser(user);
+            sum = expenseRepository.countAmountByUser(user);
         } else {
-            sum = expenseRepository.sumAmountByUserIdAndPaid(userId, paid);
+            sum = expenseRepository.countAmountByUserIdAndPaid(userId, paid);
         }
         return sum;
     }
@@ -52,6 +50,7 @@ public class ExpenseController {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
         expense.setUser(user);
+        user.addExpense(expense);
         return expenseRepository.save(expense);
     }
 
