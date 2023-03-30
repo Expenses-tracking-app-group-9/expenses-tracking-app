@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static jdk.internal.logger.LoggerFinderLoader.service;
 
 
 @RestController
 @RequestMapping("/users/{userId}/expenses")
 public class ExpenseController {
 
+
+    @Autowired private ExpenseService service;
     @Autowired
     private UserRepository userRepository;
 
@@ -101,16 +102,29 @@ public class ExpenseController {
     @GetMapping ("/expenses/new")
     public String showNewForm(Model model){
         model.addAttribute("expense", new Expense());
-        model.addAttribute("pagetitle", "Add new User")
+        model.addAttribute("pagetitle", "Add new User");
                 return "expenseform";
     }
 
     @PostMapping("/expenses/save")
     public String saveExpense(Expense expense, RedirectAttributes ra) {
-        expenseRepository.save(expense);
+        service.save(expense);
         return "redirect:/expenses";
     }
 
+    @GetMapping ("/expenses/edit{id")
+    public String showEditForm(@PathVariable("id")Integer id, Model model, RedirectAttributes ra){
+        try{
+            Expense expense = service.get(id);
+            model.addAttribute("expense", expense);
+            model.addAttribute("pageTitle", "Edit User (ID: " +id +")");
+            return "user_form";
+        } catch (NotFound e){
+            ra.addFlashAttribute("message", "The user has been saved successfuly");
+            return "redirect: /expenses";
+        }
+
+    }
 
 }
 
