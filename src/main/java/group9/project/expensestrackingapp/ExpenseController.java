@@ -5,9 +5,14 @@ import org.springframework.beans.factory.annotation.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import static jdk.internal.logger.LoggerFinderLoader.service;
+
 
 @RestController
 @RequestMapping("/users/{userId}/expenses")
@@ -91,4 +96,20 @@ public class ExpenseController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
+    @GetMapping ("/expenses/new")
+    public String showNewForm(Model model){
+        model.addAttribute("expense", new Expense());
+        model.addAttribute("pagetitle", "Add new User")
+                return "expenseform";
+    }
+
+    @PostMapping("/expenses/save")
+    public String saveExpense(Expense expense, RedirectAttributes ra) {
+        expenseRepository.save(expense);
+        return "redirect:/expenses";
+    }
+
+
 }
+
