@@ -14,8 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
 class ExpenseRepositoryTests {
-	@Autowired
-	private ExpenseController myExpenseController;
 
 	@Autowired
 	private ExpenseRepository myExpenseRepo;
@@ -26,6 +24,7 @@ class ExpenseRepositoryTests {
 	@Test
 	void testGetExpensesByUserIdByPaid() {
 		User newUser = new User();
+		newUser.setId(1);
 		newUser.setUsername("Ahmed");
 		newUser.setEmail("ahmed@gmail.com");
 

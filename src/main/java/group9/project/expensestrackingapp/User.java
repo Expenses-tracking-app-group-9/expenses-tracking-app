@@ -11,7 +11,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String username;
 
@@ -23,16 +23,17 @@ public class User {
 
     public User() {}
 
-    public User(String username, String email) {
+    public User(int id, String username, String email) {
+        this.id = id;
         this.username = username;
         this.email = email;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

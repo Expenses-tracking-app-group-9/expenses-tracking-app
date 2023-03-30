@@ -8,5 +8,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     Double countAmountByUser(User user);
 
-    Double countAmountByUserIdAndPaid(Long userId, boolean paid);
+    Double countAmountByUserIdAndPaid(int userId, boolean paid);
 }

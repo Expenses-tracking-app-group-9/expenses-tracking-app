@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static jdk.internal.logger.LoggerFinderLoader.service;
-
-
 @RestController
 @RequestMapping("/users/{userId}/expenses")
 public class ExpenseController {
@@ -24,8 +21,11 @@ public class ExpenseController {
     @Autowired
     private ExpenseRepository expenseRepository;
 
+    @Autowired
+    private ExpenseService expenseService;
+
     @GetMapping
-    public List<Expense> getExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
+    public List<Expense> getExpensesByUserIdByPaid(@PathVariable int userId, @RequestParam(required = false) Boolean paid) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
         List<Expense> expenses;
@@ -38,7 +38,7 @@ public class ExpenseController {
     }
 
     @GetMapping("/sum")
-    public double getSumOfExpensesByUserIdByPaid(@PathVariable Long userId, @RequestParam(required = false) Boolean paid) {
+    public double getSumOfExpensesByUserIdByPaid(@PathVariable int userId, @RequestParam(required = false) Boolean paid) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
         double sum;
@@ -51,7 +51,7 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public Expense addExpense(@PathVariable Long userId, @RequestBody Expense expense) {
+    public Expense addExpense(@PathVariable int userId, @RequestBody Expense expense) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
         expense.setUser(user);
@@ -60,7 +60,7 @@ public class ExpenseController {
     }
 
     @PutMapping("/{expenseId}")
-    public Expense updateExpense(@PathVariable Long userId, @PathVariable Long expenseId,
+    public Expense updateExpense(@PathVariable int userId, @PathVariable Long expenseId,
                                  @RequestBody Expense updatedExpense) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
@@ -81,7 +81,7 @@ public class ExpenseController {
     }
 
     @DeleteMapping("/{expenseId}")
-    public ResponseEntity<?> deleteExpense(@PathVariable Long userId, @PathVariable Long expenseId) {
+    public ResponseEntity<?> deleteExpense(@PathVariable int userId, @PathVariable Long expenseId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("User not found with id " + userId));
         Expense expense = expenseRepository.findById(expenseId)
@@ -100,13 +100,13 @@ public class ExpenseController {
     @GetMapping ("/expenses/new")
     public String showNewForm(Model model){
         model.addAttribute("expense", new Expense());
-        model.addAttribute("pagetitle", "Add new User")
-                return "expenseform";
+        model.addAttribute("pagetitle", "Add new User");
+    return "expenseform";
     }
 
     @PostMapping("/expenses/save")
     public String saveExpense(Expense expense, RedirectAttributes ra) {
-        expenseRepository.save(expense);
+        expenseService.save(expense);
         return "redirect:/expenses";
     }
 
